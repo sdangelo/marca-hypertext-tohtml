@@ -27,6 +27,6 @@
     "marca-hypertext": "0.0.x"
   },
   "bin": {
-    { "marca2html": "./marca2html.js" }
+    "marca2html": "./marca2html.js"
   }
 }
