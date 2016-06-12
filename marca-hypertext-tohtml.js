@@ -136,6 +136,7 @@ module.exports = function (Marca) {
 		return string + "</a>";
 	};
 
+	Marca.DOMElementHypertextSpan.HTMLTag = "span";
 	Marca.DOMElementHypertextStrong.HTMLTag = "strong";
 	Marca.DOMElementHypertextEmphasis.HTMLTag = "em";
 	Marca.DOMElementHypertextDeleted.HTMLTag = "del";

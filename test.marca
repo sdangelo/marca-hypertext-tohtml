@@ -12,7 +12,7 @@ Text. Escapes: \{ \}.
 
 {h6: Heading 6}
 
-{p: Paragraph. Tags: {strong: strong}, {em: em}, {del: del}, {sub: sub}, {sup: sup}, {code: code}, {a href="href": a}.}
+{p: Paragraph. Tags: {span: span}, {strong: strong}, {em: em}, {del: del}, {sub: sub}, {sup: sup}, {code: code}, {a href="href": a}.}
 
 {ol:
   {li: Simple ordered list item.}
