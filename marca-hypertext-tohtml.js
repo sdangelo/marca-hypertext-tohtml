@@ -143,6 +143,14 @@ module.exports = function (Marca) {
 	Marca.DOMElementHypertextSuperscript.HTMLTag = "sup";
 	Marca.DOMElementHypertextCode.HTMLTag = "code";
 
+	Marca.DOMElementHypertextPreformatted.toHTML = function (indent) {
+		var string = (new Array(indent + 1)).join("  ")
+			     + "<pre" + Marca.genericAttrsToHTML(this) + ">";
+		for (var i = 0; i < this.children.length; i++)
+			string += this.children[i].toHTML(0);
+		return string + "</pre>";
+	};
+
 	Marca.DOMElementHypertextBlockPassthrough.toHTML = function (indent) {
 		return this.output == "html"
 		       ? this.children[0].text
