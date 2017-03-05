@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Stefano D'Angelo <zanga.mail@gmail.com>
+ * Copyright (C) 2016, 2017 Stefano D'Angelo <zanga.mail@gmail.com>
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -28,16 +28,16 @@ module.exports = function (Marca) {
 		if (element.id)
 			string += ' id="' + element.id + '"';
 		if (element.class)
-			string += ' class="' + element.class + '"';
+			string += ' class="' + element.class.join(" ") + '"';
 		return string;
 	};
 
-	Marca.DOMElementText.toHTML = function (indent) {
+	Marca.DOMElementText.toHTML = function (indent, opt) {
 		return (new Array(indent + 1)).join("  ")
 		       + Marca.encodeHTML(this.text);
 	};
 
-	Marca.DOMElementHypertext.toHTML = function (indent) {
+	Marca.DOMElementHypertext.toHTML = function (indent, opt) {
 		var firstIndent = this.HTMLTag ? indent + 1 : indent;
 
 		var string = "";
@@ -53,7 +53,8 @@ module.exports = function (Marca) {
 			if (i == 0)
 				firstChildIsInline = inline;
 			var notFirst = inline && prevInline;
-			var s = this.children[i].toHTML(notFirst ? 0 : firstIndent);
+			var s = this.children[i].toHTML(notFirst
+							? 0 : firstIndent, opt);
 			if (!notFirst) {
 				if (i != 0)
 					string += "\n";
@@ -79,12 +80,13 @@ module.exports = function (Marca) {
 		return string;
 	};
 
-	Marca.DOMElementHypertextList.toHTML = function (indent) {
+	Marca.DOMElementHypertextList.toHTML = function (indent, opt) {
 		var indentString = (new Array(indent + 1)).join("  ");
 		var string = indentString + "<" + this.HTMLTag
 			     + Marca.genericAttrsToHTML(this) + ">\n";
 		for (var i = 0; i < this.children.length; i++)
-			string += this.children[i].toHTML(indent + 1) + "\n";
+			string += this.children[i].toHTML(indent + 1, opt)
+				  + "\n";
 		return string + indentString +  "</" + this.HTMLTag + ">";
 	};
 
@@ -96,7 +98,7 @@ module.exports = function (Marca) {
 	Marca.DOMElementHypertextHeading6.HTMLTag = "h6";
 	Marca.DOMElementHypertextParagraph.HTMLTag = "p";
 
-	Marca.DOMElementHypertextFigure.toHTML = function (indent) {
+	Marca.DOMElementHypertextFigure.toHTML = function (indent, opt) {
 		var indentString = (new Array(indent + 1)).join("  ");
 		var string = indentString + "<figure"
 			     + Marca.genericAttrsToHTML(this) + ">\n";
@@ -107,7 +109,7 @@ module.exports = function (Marca) {
 		if (this.children.length != 0) {
 			string += indentString + "  <figcaption>";
 			for (var i = 0; i < this.children.length; i++)
-				string += this.children[i].toHTML(0);
+				string += this.children[i].toHTML(0, opt);
 			string += "</figcaption>\n";
 		}
 		return string + indentString + "</figure>";
@@ -127,12 +129,12 @@ module.exports = function (Marca) {
 
 	Marca.DOMElementHypertextBlockQuotation.HTMLTag = "blockquote";
 
-	Marca.DOMElementHypertextAnchor.toHTML = function (indent) {
+	Marca.DOMElementHypertextAnchor.toHTML = function (indent, opt) {
 		var string = (new Array(indent + 1)).join("  ")
 			     + "<a" + Marca.genericAttrsToHTML(this)
 			     + " href=\"" + this.href + "\">";
 		for (var i = 0; i < this.children.length; i++)
-			string += this.children[i].toHTML(0);
+			string += this.children[i].toHTML(0, opt);
 		return string + "</a>";
 	};
 
@@ -144,18 +146,22 @@ module.exports = function (Marca) {
 	Marca.DOMElementHypertextSuperscript.HTMLTag = "sup";
 	Marca.DOMElementHypertextCode.HTMLTag = "code";
 
-	Marca.DOMElementHypertextPreformatted.toHTML = function (indent) {
+	Marca.DOMElementHypertextPreformatted.toHTML = function (indent, opt) {
 		var string = (new Array(indent + 1)).join("  ")
 			     + "<pre" + Marca.genericAttrsToHTML(this) + ">";
 		for (var i = 0; i < this.children.length; i++)
-			string += this.children[i].toHTML(0);
+			string += this.children[i].toHTML(0, opt);
 		return string + "</pre>";
 	};
 
-	Marca.DOMElementHypertextBlockPassthrough.toHTML = function (indent) {
-		return this.output == "html"
-		       ? this.children[0].text
-			     .replace(/^/gm, (new Array(indent + 1)).join("  "))
-		       : "";
+	Marca.DOMElementHypertextBlockPassthrough.toHTML =
+	function (indent, opt) {
+		if (this.output != "html")
+			return "";
+
+		var string = "";
+		for (var i = 0; i < this.children.length; i++)
+			string += this.children[i].text;
+		return string.replace(/^/gm, (new Array(indent + 1)).join("  "))
 	};
 };
