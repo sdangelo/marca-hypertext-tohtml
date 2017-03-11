@@ -31,6 +31,8 @@ Text. Escapes: \{ \}. {c: Comment.} More text.
 
 {figure src="src" alt="alt": Figure caption.}
 
+{img src="src" alt="alt":}
+
 {blockquote: Blockquote.}
 
 {table:

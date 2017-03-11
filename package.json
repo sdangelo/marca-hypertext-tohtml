@@ -1,6 +1,6 @@
 {
   "name": "marca-hypertext-tohtml",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Hypertext-to-HTML for Marca",
   "main": "marca-hypertext-tohtml.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "email": "zanga.mail@gmail.com"
   },
   "peerDependencies": {
-    "marca-hypertext": "0.1.x"
+    "marca-hypertext": "0.1.x >=0.1.1"
   },
   "bin": {
     "marca2html": "./marca2html.js"

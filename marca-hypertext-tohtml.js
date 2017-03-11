@@ -138,6 +138,15 @@ module.exports = function (Marca) {
 		return string + "</a>";
 	};
 
+	Marca.DOMElementHypertextImage.toHTML = function (indent, opt) {
+		var string = (new Array(indent + 1)).join("  ")
+			     + "<img" + Marca.genericAttrsToHTML(this)
+			     + " src=\"" + this.src + "\"";
+		if (this.alt)
+			string += " alt=\"" + this.alt + "\"";
+		return string + ">";
+	};
+
 	Marca.DOMElementHypertextSpan.HTMLTag = "span";
 	Marca.DOMElementHypertextStrong.HTMLTag = "strong";
 	Marca.DOMElementHypertextEmphasis.HTMLTag = "em";
